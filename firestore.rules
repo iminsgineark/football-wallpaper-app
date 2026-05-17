@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function: check if request is from an admin
+    function isAdmin() {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Helper function: check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ── Users collection ──────────────────────────────────────
+    match /users/{userId} {
+      // Users can read/write their own document
+      allow read: if isAuthenticated() && request.auth.uid == userId;
+      // Admin can read all users
+      allow read: if isAdmin();
+      // Only allow creating your own user doc with role = "user"
+      allow create: if isAuthenticated() &&
+                       request.auth.uid == userId &&
+                       request.resource.data.role == 'user';
+      // Users can update own doc except role field
+      allow update: if isAuthenticated() &&
+                       request.auth.uid == userId &&
+                       !('role' in request.resource.data.diff(resource.data).affectedKeys());
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+
+    // ── Categories collection ─────────────────────────────────
+    match /categories/{categoryId} {
+      // Anyone authenticated can read
+      allow read: if isAuthenticated();
+      // Only admins can write
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Subcategories collection ──────────────────────────────
+    match /subcategories/{subcategoryId} {
+      allow read: if isAuthenticated();
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Wallpapers collection ─────────────────────────────────
+    match /wallpapers/{wallpaperId} {
+      // Anyone authenticated can read
+      allow read: if isAuthenticated();
+      // Only admins can upload / edit / delete
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Favorites collection ──────────────────────────────────
+    match /favorites/{favoriteId} {
+      // Users can read their own favorites
+      allow read: if isAuthenticated() &&
+                     resource.data.user_id == request.auth.uid;
+      // Admin can read all
+      allow read: if isAdmin();
+      // Users can create favorites for themselves
+      allow create: if isAuthenticated() &&
+                       request.resource.data.user_id == request.auth.uid;
+      // Users can delete their own favorites
+      allow delete: if isAuthenticated() &&
+                       resource.data.user_id == request.auth.uid;
+      // No updates allowed (delete + recreate instead)
+      allow update: if false;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Cristiano Ronaldo",
+    "image_url": "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=1000",
+    "category_name": "⭐ Players",
+    "tags": ["ronaldo", "cr7", "portugal"]
+  },
+  {
+    "title": "Neymar JR",
+    "image_url": "https://i.pinimg.com/736x/99/48/57/9948576448aa18341941e07119f2d483.jpg",
+    "category_name": "⭐ Players",
+    "tags": ["ronaldo", "cr7", "portugal"]
+  },
+  {
+    "title": "Lionel Messi",
+    "image_url": "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=1000",
+    "category_name": "⭐ Players",
+    "tags": ["messi", "argentina", "inter miami"]
+  },
+  {
+    "title": "Real Madrid Logo",
+    "image_url": "https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=1000",
+    "category_name": "🏟️ Clubs",
+    "tags": ["real madrid", "la liga"]
+  }
+]

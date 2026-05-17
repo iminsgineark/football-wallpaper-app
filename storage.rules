@@ -1,0 +1,34 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper: check if user is admin via custom claim OR Firestore role
+    // Note: Using file metadata for simplicity since Storage can't query Firestore directly
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // For production, set custom claims on admin users via Firebase Admin SDK
+    // This checks the custom claim approach
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.role == 'admin';
+    }
+
+    // Wallpapers folder - only admins upload, all authenticated users read
+    match /wallpapers/{allPaths=**} {
+      // Anyone signed in can view wallpapers
+      allow read: if isAuthenticated();
+
+      // Only admins can upload/delete
+      // Using file size limit (50MB max per wallpaper)
+      allow create: if isAdmin() &&
+                       request.resource.size < 50 * 1024 * 1024 &&
+                       request.resource.contentType.matches('image/.*');
+
+      allow delete: if isAdmin();
+      allow update: if isAdmin();
+    }
+  }
+}

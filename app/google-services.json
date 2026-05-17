@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902810053690",
+    "project_id": "football-wallpaper-ee514",
+    "storage_bucket": "football-wallpaper-ee514.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902810053690:android:3649c2091a9077b3fdd903",
+        "android_client_info": {
+          "package_name": "com.meritshot.footballwallpaper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiQ9SzA_xfVYKaPmpaFvI5_z1K63Pgthk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,11 @@
+*.hprof
+.gradle/
+build/
+*/build/
+.idea/
+*.iml
+*.class
+local.properties
+.kotlin/
+captures/
+*.apk
