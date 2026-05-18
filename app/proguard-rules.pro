@@ -1,0 +1,3 @@
+-keep class com.meritshot.footballwallpaper.data.model.** { *; }
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable

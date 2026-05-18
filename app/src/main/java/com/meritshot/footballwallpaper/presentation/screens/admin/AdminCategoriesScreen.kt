@@ -66,6 +66,9 @@ fun AdminCategoriesScreen(
                         selectedCategoryForSub = category
                         viewModel.loadSubcategories(category.id)
                         showAddSubcategoryDialog = true
+                    },
+                    onDelete = {
+                        viewModel.deleteCategory(category.id)
                     }
                 )
             }
@@ -181,7 +184,11 @@ fun AdminCategoriesScreen(
 }
 
 @Composable
-private fun CategoryManageCard(category: Category, onAddSubcategory: () -> Unit) {
+private fun CategoryManageCard(
+    category: Category, 
+    onAddSubcategory: () -> Unit,
+    onDelete: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = SurfaceVariant),
@@ -195,6 +202,11 @@ private fun CategoryManageCard(category: Category, onAddSubcategory: () -> Unit)
             Spacer(Modifier.width(12.dp))
             Text(category.name, color = TextPrimary, fontWeight = FontWeight.Medium,
                 modifier = Modifier.weight(1f))
+            
+            IconButton(onClick = onDelete) {
+                Text("🗑️", fontSize = 18.sp)
+            }
+
             OutlinedButton(
                 onClick = onAddSubcategory,
                 border = ButtonDefaults.outlinedButtonBorder.copy(

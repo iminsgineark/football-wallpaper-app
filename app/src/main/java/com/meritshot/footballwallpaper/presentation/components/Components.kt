@@ -34,17 +34,19 @@ fun WallpaperCard(
 ) {
     val context = LocalContext.current
     val imageModel = remember(wallpaper.imageUrl) {
-        if (wallpaper.imageUrl.startsWith("asset://")) {
+        val url = if (wallpaper.imageUrl.startsWith("asset://")) {
             "file:///android_asset/${wallpaper.imageUrl.substringAfter("asset://")}"
         } else {
-            ImageRequest.Builder(context)
-                .data(wallpaper.imageUrl)
-                .addHeader("User-Agent", "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36")
-                .addHeader("Referer", "https://www.pinterest.com/")
-                .allowHardware(false)
-                .crossfade(true)
-                .build()
+            wallpaper.imageUrl
         }
+        
+        ImageRequest.Builder(context)
+            .data(url)
+            .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+            .addHeader("Referer", "https://www.google.com/")
+            .allowHardware(false)
+            .crossfade(true)
+            .build()
     }
 
     Card(

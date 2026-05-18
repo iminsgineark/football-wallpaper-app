@@ -240,6 +240,16 @@ class WallpaperViewModel @Inject constructor(
         }
     }
 
+    fun deleteCategory(categoryId: String) {
+        viewModelScope.launch {
+            when (val result = repo.deleteCategory(categoryId)) {
+                is Result.Success -> _uiState.update { it.copy(successMessage = "Category deleted!") }
+                is Result.Error   -> _uiState.update { it.copy(error = result.exception.message) }
+                Result.Loading    -> {}
+            }
+        }
+    }
+
     fun addSubcategory(categoryId: String, name: String) {
         viewModelScope.launch {
             when (val result = repo.addSubcategory(categoryId, name)) {
