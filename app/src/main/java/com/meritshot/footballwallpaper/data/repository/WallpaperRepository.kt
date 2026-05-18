@@ -80,7 +80,6 @@ class WallpaperRepository @Inject constructor(
 
     fun getWallpapersFlow(): Flow<List<Wallpaper>> = callbackFlow {
         val listener = firestore.collection("wallpapers")
-            .orderBy("created_at", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) { close(error); return@addSnapshotListener }
                 val list = snapshot?.documents?.mapNotNull {
@@ -94,7 +93,6 @@ class WallpaperRepository @Inject constructor(
     fun getWallpapersByCategoryFlow(categoryId: String): Flow<List<Wallpaper>> = callbackFlow {
         val listener = firestore.collection("wallpapers")
             .whereEqualTo("category_id", categoryId)
-            .orderBy("created_at", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) { close(error); return@addSnapshotListener }
                 val list = snapshot?.documents?.mapNotNull {
